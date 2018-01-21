@@ -11,8 +11,9 @@
 
 用于在动画排行，目录，个人收藏页面展示更多信息。 安装：[GreasyFork](https://greasyfork.org/scripts/37629-tell-me-more)
 
-![Image of TMM](http://ww1.sinaimg.cn/large/b53a37f8ly1fnoal41hrfj20ju03f0tf.jpg)
+![Image of TMM](https://ww1.sinaimg.cn/large/b53a37f8ly1fnoal41hrfj20ju03f0tf.jpg)
 
+#### Issues:
 - [x] 启用 LocalStorage，减少请求次数
 - [x] 支持个人收藏页面信息展示
 - [ ] Tooltip 显示位置问题
