@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tell Me More!
-// @namespace    https://github.com/cszipper/BangumiScripts
-// @version      0.3
+// @namespace    http://tampermonkey.net/
+// @version      0.4
 // @description  用于在 Bangumi 目录页与排行榜页显示更多信息
 // @author       AnoZZ
 // @match        *://bgm.tv/anime/browser*
@@ -134,24 +134,24 @@
     }
 
     function draw(want, on, ever, leave, drop, rank, score, id, page){
-        var count = want + on + ever + leave + drop;
+        var count = (want + on + ever + leave + drop)/100;
         if(page != "browser"){
             $(  '<div style="float:right;padding-right:50px;">'+
                 '<span style="color:#666">Rank: ' + rank + '&nbsp;&nbsp;</span>'+
                 '<span style="color:#666">Score: ' + score + '</span></div>'
             ).insertAfter($('#'+id).find('div.inner h3 a'));
         }
-        $(  '<div style="width:550px;padding-top:3px;">'+
-            '<div class="tmm-detail tmm-left" style="width:'+ (want/count*550).toString()+
-            'px;background:#22cefe;">&nbsp;<div class="tmm-tooltip">' + (want).toString()+
-            '人想看</div></div><div class="tmm-detail" style="width:'+ (on/count*550).toString()+
-            'px;background:#7bf08a;">&nbsp;<div class="tmm-tooltip">' + (on).toString()+
-            '人在看</div></div><div class="tmm-detail" style="width:'+ (ever/count*550).toString()+
-            'px;background:#ffc233;">&nbsp;<div class="tmm-tooltip">' + (ever).toString()+
-            '人看过</div></div><div class="tmm-detail" style="width:'+ (leave/count*550).toString()+
-            'px;background:#ff9124;">&nbsp;<div class="tmm-tooltip">'+ (leave).toString()+
-            '人搁置</div></div><div class="tmm-detail tmm-right" style="width:'+ (drop/count*550).toString()+
-            'px;background:#ff3d67;">&nbsp;<div class="tmm-tooltip">'+ (drop).toString()+
+        $(  '<div style="width:auto;padding-top:3px;max-width:550px">'+
+            '<div class="tmm-detail tmm-left" style="width:'+ (want/count).toString()+
+            '%;background:#22cefe;">&nbsp;<div class="tmm-tooltip">' + (want).toString()+
+            '人想看</div></div><div class="tmm-detail" style="width:'+ (on/count).toString()+
+            '%;background:#7bf08a;">&nbsp;<div class="tmm-tooltip">' + (on).toString()+
+            '人在看</div></div><div class="tmm-detail" style="width:'+ (ever/count).toString()+
+            '%;background:#ffc233;">&nbsp;<div class="tmm-tooltip">' + (ever).toString()+
+            '人看过</div></div><div class="tmm-detail" style="width:'+ (leave/count).toString()+
+            '%;background:#ff9124;">&nbsp;<div class="tmm-tooltip">'+ (leave).toString()+
+            '人搁置</div></div><div class="tmm-detail tmm-right" style="width:'+ (drop/count).toString()+
+            '%;background:#ff3d67;">&nbsp;<div class="tmm-tooltip">'+ (drop).toString()+
             '人抛弃</div></div><div style="clear:both;"/></div>'
         ).insertAfter($('#'+id + ' div.inner').children().last());
     }
