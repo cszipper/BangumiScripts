@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tell Me More!
-// @namespace    http://tampermonkey.net/
-// @version      0.2
+// @namespace    https://github.com/cszipper/BangumiScripts
+// @version      0.3
 // @description  用于在 Bangumi 目录页与排行榜页显示更多信息
 // @author       AnoZZ
 // @match        *://bgm.tv/anime/browser*
