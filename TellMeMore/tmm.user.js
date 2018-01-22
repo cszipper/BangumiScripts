@@ -16,6 +16,7 @@
 // @icon         http://bgm.tv/img/favicon.ico
 // @run-at       document-end
 // @grant        GM_xmlhttpRequest
+// @grant        GM_addStyle
 // @require      http://code.jquery.com/jquery-3.2.1.slim.min.js
 // ==/UserScript==
 
@@ -26,35 +27,53 @@
     if(page == "anime"){
         page = pathname.split('/')[2];
     }
-    if (!GM_xmlhttpRequest) {
-        alert('请升级到最新版本的 Greasemonkey.');
-        return;
-    }
-    var sheet = window.document.styleSheets[0];
-    sheet.insertRule(
-        '.tmm-detail { float:left;box-shadow: 1px 1px 1px #888888;height:12px }',
-        sheet.cssRules.length
-    );
-    sheet.insertRule(
-        '.tmm-left { border-top-left-radius:5px;border-bottom-left-radius:5px; }',
-        sheet.cssRules.length
-    );
-    sheet.insertRule(
-        '.tmm-right { border-top-right-radius:5px;border-bottom-right-radius:5px; }',
-        sheet.cssRules.length
-    );
-    sheet.insertRule(
-        '.tmm-detail .tmm-tooltip { background: #fff;bottom: 100%;display: block;left: 50%;font-size: 8px;padding:5px;position:absolute;opacity: 0;box-shadow: 1px 1px 1px #888888;margin-bottom: -95px}',
-        sheet.cssRules.length
-    );
-    sheet.insertRule(
-        '.tmm-detail .tmm-tooltip:after {border-left: solid transparent 5px;border-right: solid transparent 5px;border-top: solid #fff 5px;bottom: -5px;content: " ";height: 0;left: 50%;margin-left: -13px;position: absolute;width: 0;}',
-        sheet.cssRules.length
-    );
-    sheet.insertRule(
-        '.tmm-detail:hover .tmm-tooltip {opacity: 1;pointer-events: auto;}',
-        sheet.cssRules.length
-    );
+
+    GM_addStyle(`
+        .tmm-detail {
+            float:left;
+            box-shadow: 1px 1px 1px #888888;
+            height:12px;
+        }
+        .tmm-left {
+            border-top-left-radius:5px;
+            border-bottom-left-radius:5px;
+        }
+        .tmm-right {
+            border-top-right-radius:5px;
+            border-bottom-right-radius:5px;
+        }
+        .tmm-detail .tmm-tooltip {
+            background: #fff;
+            bottom: -16px;
+            display: inline;
+            font-size: 8px;
+            padding: 5px;
+            position: relative;
+            opacity: 0;
+            box-shadow: 1px 1px 1px #888888;
+            z-index: 1;
+            white-space: nowrap;
+            text-align: center;
+            transition: opacity 0.5s;
+        }
+        .tmm-detail .tmm-tooltip:after {
+            border-left: solid transparent 5px;
+            border-right: solid transparent 5px;
+            border-bottom: solid #fff 5px;
+            top: -5px;
+            content: " ";
+            height: 0;
+            left: 50%;
+            margin-left: -5px;
+            position: absolute;
+            width: 0;
+            z-index: 1;
+        }
+        .tmm-detail:hover .tmm-tooltip {
+            opacity: 1;
+        }
+    `);
+
     var items = $('li.item');
     for(var i=0; i<items.length; i++){
         var item = items[i];
@@ -79,6 +98,7 @@
                 valueLocal.drop, valueLocal.rank, valueLocal.score, id, page);
         }
     }
+
     function callback(id, page, subjectId){
         return function(data){
             var stat = $(data.responseText).find('div#subjectPanelCollect span.tip_i a');
@@ -112,15 +132,10 @@
             draw(want, on, ever, leave, drop, rank, score, id, page);
         };
     }
+
     function draw(want, on, ever, leave, drop, rank, score, id, page){
         var count = want + on + ever + leave + drop;
-        var selector = 'div.inner .rateInfo';
         if(page != "browser"){
-            if(page == "index"){
-                selector = 'div.inner #comment_box';
-            }else{
-                selector = 'div.inner .collectInfo';
-            }
             $(  '<div style="float:right;padding-right:50px;">'+
                 '<span style="color:#666">Rank: ' + rank + '&nbsp;&nbsp;</span>'+
                 '<span style="color:#666">Score: ' + score + '</span></div>'
@@ -138,7 +153,12 @@
             '人搁置</div></div><div class="tmm-detail tmm-right" style="width:'+ (drop/count*550).toString()+
             'px;background:#ff3d67;">&nbsp;<div class="tmm-tooltip">'+ (drop).toString()+
             '人抛弃</div></div><div style="clear:both;"/></div>'
-        ).insertAfter($('#'+id).find(selector));
+        ).insertAfter($('#'+id + ' div.inner').children().last());
     }
 
+    $('.tmm-detail').hover(function(){
+        var tooltip = $(this).children().first();
+        var pos =$(this).offset().left + ($(this).width() - tooltip.width()) / 2;
+        tooltip.offset({ left: pos });
+    });
 })();

@@ -11,11 +11,11 @@
 
 用于在动画排行，目录，个人收藏页面展示更多信息。 安装：[GreasyFork](https://greasyfork.org/scripts/37629-tell-me-more)
 
-![Image of TMM](https://ww1.sinaimg.cn/large/b53a37f8ly1fnoal41hrfj20ju03f0tf.jpg)
+![TMM](http://i68.tinypic.com/r045g1.png)
 
 #### Issues:
 - [x] 启用 LocalStorage，减少请求次数
 - [x] 支持个人收藏页面信息展示
-- [ ] Tooltip 显示位置问题
+- [x] Tooltip 显示位置问题
 - [ ] 在缺少某项数据时导致彩条左/右没有圆角
 - [ ] 彩条随页面缩放
